@@ -21,20 +21,12 @@
     var scannedMPOverlays = {};
 
     var onEntityAdded = function(entityID) {
-        print('entity added: ' + entityID);
         var newItemProperties = Entities.getEntityProperties(entityID, ['marketplaceID', 'clientOnly', 'owningAvatarID', 'lastEditedBy']);
-        print(MyAvatar.sessionUUID);
-        print(newItemProperties.lastEditedBy);
-        if (/* newItemProperties.clientOnly && newItemProperties.owningAvatarID === MyAvatar.sessionUUID && */
-            (newItemProperties.lastEditedBy === MyAvatar.sessionUUID || newItemProperties.lastEditedBy === undefined) &&
+        if ((newItemProperties.lastEditedBy === MyAvatar.sessionUUID || newItemProperties.lastEditedBy === undefined) &&
             newItemProperties.marketplaceID !== "") {
-            
-            print('Entity of interest added.');
             if (scannedMPOverlays[newItemProperties.marketplaceID] !== undefined) {
-                print('scannedMPOverlays contains entity of interest.');
                 var overlayID = scannedMPOverlays[newItemProperties.marketplaceID];
                 Entities.callEntityMethod(checkoutZoneID, 'replicaCheckedOut', [overlayID, entityID]);
-                print('called the entity method.');
                 delete scannedMPOverlays[newItemProperties.marketplaceID];
             }
         }
@@ -54,9 +46,7 @@
                 overlays.forEach(function(overlay) {
                     var name = Overlays.getProperty(overlay, 'name');
                     if (name.indexOf(OVERLAY_PREFIX) !== -1) {
-                        print("this one is MP!");
                         var marketplaceID = name.substr(OVERLAY_PREFIX.length, OVERLAY_PREFIX.length + 35);
-                        print("ID is " + marketplaceID);
                         var goToURL = MARKET_PLACE_ITEM_URL_PREFIX + marketplaceID;
                         scannedMPOverlays[marketplaceID] = overlay;
                         TABLET.gotoWebScreen(goToURL);
