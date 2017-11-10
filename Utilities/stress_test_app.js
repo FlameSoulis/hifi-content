@@ -7,15 +7,13 @@
     
     var entityProperties = {
         name: "StressTestEntity",
+        dimensions: {x: 0.5, y: 0.5, z:0.5},
         type: "Model",
-        clientOnly: 0,
-        parentID: "{00000000-0000-0000-0000-000000000001}",
-        owningAvatarID: "{00000000-0000-0000-0000-000000000000}",
+        clientOnly: false,
         visible: true,
         collidesWith: "",
         modelURL: "https://hifi-content.s3.amazonaws.com/jimi/avatar/photo-real/Clothes/Accessories/Beanie.fbx",
-        userData: "{\"Attachment\":{\"action\":\"attach\",\"joint\":\"HeadTop_End\",\"attached\":false,\"options\":{\"translation\":{\"x\":0,\"y\":0,\"z\":0},\"scale\":1}},"
-         + "\"grabbableKey\":{\"cloneable\":false,\"grabbable\":true},\"marketplaceID\":\"47b6ff9a-4f34-45a2-a7b1-9059876212e5\"}",        
+        userData: "{\"Attachment\":{\"action\":\"attach\",\"joint\":\"HeadTop_End\",\"attached\":false,\"options\":{\"translation\":{\"x\":0,\"y\":0,\"z\":0},\"scale\":1}},\"grabbableKey\":{\"cloneable\":false,\"grabbable\":true},\"marketplaceID\":\"47b6ff9a-4f34-45a2-a7b1-9059876212e5\"}",        
         serverScripts: "https://hifi-content.s3.amazonaws.com/liv/avatar_shopping_demo/wearableServer.js",
         locked:true
     };
@@ -38,15 +36,16 @@
         if (event.type === "spawn") {
             for (var i = 0; i < ENTITY_SPREAD; i++) {
                 for (var j = 0; j < ENTITY_SPREAD; j++) {
-                    var position = { x: MyAvatar.position.x + 1, y: MyAvatar.position.y + 1, z: MyAvatar.position.z + j};
+                    var position = { x: MyAvatar.position.x + i, y: MyAvatar.position.y + 1, z: MyAvatar.position.z + j};
                     entityProperties.position = position;
                     Entities.addEntity(entityProperties);
                 }
             }
         }
         if (event.type === "cleanup") {
-            var foundEntities = Entities.findEntitiesByType("model", MyAvatar.position, 500);
-            foundEntities.foreach(function(entity) {
+            var foundEntities = Entities.findEntitiesByType("Model", MyAvatar.position, 500);
+            print("Found: " + foundEntities.length);
+            foundEntities.forEach(function(entity) {
                 var name = Entities.getEntityProperties(entity, 'name').name;
                 if (name === "StressTestEntity") {
                     Entities.editEntity(entity, {locked: false});
