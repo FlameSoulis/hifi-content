@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title> Wearable Packager </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="top-bar">
+            <h4>Stress Test</h4>
+        </div>
+        <div class="content">
+            <input class="spawn" type="button" value="Spawn">
+            <input class="cleanup" type="button" value="Cleanup">            
+        </div>
+        <script>
+            function main(){
+                $(".spawn").click(function(){
+                    var clickEvent = {
+                        "type" : "spawn"
+                    };
+                    EventBridge.emitWebEvent(clickEvent);
+                });
+                $(".cleanup").click(function(){
+                    var clickEvent = {
+                        "type" : "cleanup"
+                    };
+                    EventBridge.emitWebEvent(clickEvent);
+                });
+            }
+            $(document).ready(main);
+        </script>
+    </body>
+</html>
