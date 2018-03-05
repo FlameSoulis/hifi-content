@@ -1,12 +1,10 @@
 (function() {
     var teleportSound;
     var portalDestination;
-    var animationURL;
     var position;
     var canTeleport;
 
     function playSound(entityID) {
-        print("playing teleport sound");
         if (teleportSound.downloaded) {
             if (!position) {
                 getProps(entityID);
@@ -18,7 +16,6 @@
     function getProps(entityID) {
         var properties = Entities.getEntityProperties(entityID);
         if (properties) {
-            animationURL = properties.modelURL;
             position = properties.position;
             portalDestination = properties.userData;
         }
@@ -63,31 +60,11 @@
 
     this.leaveEntity = function(entityID) {
         print("leaveEntity() called ....");
-        if (!animationURL) {
-            getProps(entityID);
-        }
-        Entities.editEntity(entityID, {
-            animation: { url: animationURL, currentFrame: 1, running: false }
-        });
 
         if (canTeleport === true) {
             // only play the sound if we can teleport
             playSound(entityID);
         }
         canTeleport = true;
-    };
-
-    this.hoverEnterEntity = function(entityID) {
-        print("hoverEnterEntity() called ....");
-        if (!animationURL) {
-            getProps(entityID);
-        }
-        Entities.editEntity(entityID, {
-            animation: { url: animationURL, fps: 24, firstFrame: 1, lastFrame: 25, currentFrame: 1, running: true, hold: true }
-        });
-    };
-
-    this.unload = function() {
-        print("unloading teleport script");
     };
 });
