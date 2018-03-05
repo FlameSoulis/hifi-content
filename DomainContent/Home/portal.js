@@ -1,4 +1,4 @@
-(function () {
+(function() {
     var teleportSound;
     var portalDestination;
     var animationURL;
@@ -36,7 +36,7 @@
             halfDimensions.z >= localPosition.z;
     }
 
-    this.preload = function (entityID) {
+    this.preload = function(entityID) {
         print("loading teleport script");
         teleportSound = SoundCache.getSound("http://s3.amazonaws.com/hifi-public/birarda/teleport.raw");
         getProps(entityID);
@@ -44,7 +44,7 @@
         canTeleport = !isPositionInsideBox(MyAvatar.position, Entities.getEntityProperties(entityID));
     };
 
-    this.enterEntity = function (entityID) {
+    this.enterEntity = function(entityID) {
         // check if we should teleport
         if (canTeleport === false) {
             // if we have not passed enough time, do not teleport the user
@@ -61,7 +61,7 @@
 
     };
 
-    this.leaveEntity = function (entityID) {
+    this.leaveEntity = function(entityID) {
         print("leaveEntity() called ....");
         if (!animationURL) {
             getProps(entityID);
@@ -77,7 +77,7 @@
         canTeleport = true;
     };
 
-    this.hoverEnterEntity = function (entityID) {
+    this.hoverEnterEntity = function(entityID) {
         print("hoverEnterEntity() called ....");
         if (!animationURL) {
             getProps(entityID);
@@ -87,7 +87,7 @@
         });
     };
 
-    this.unload = function () {
+    this.unload = function() {
         print("unloading teleport script");
     };
 });
